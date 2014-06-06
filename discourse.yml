@@ -1,0 +1,27 @@
+- hosts: www
+  sudo: true
+  serial: 1
+  gather_facts: false
+  user: fedora
+  roles:
+    - role: managed-host
+      sysadmins:
+        - name: tdfischer
+          key: "{{ lookup('file', 'sysadmin-keys/tdfischer.pub') }}"
+        - name: phuzion
+          key: "{{ lookup('file', 'sysadmin-keys/phuzion.pub') }}"
+        - name: gsvolt
+          key: "{{ lookup('file', 'sysadmin-keys/gsvolt.pub') }}"
+      extra_packages:
+        - psycopg2
+
+    - role: pgsql
+
+    - role: discourse
+
+    - role: uwsgi-server
+
+    - role: nginx-uwsgi
+      name: hackron.org
+      nginx_append:
+        - templates/hackron-nginx.conf
