@@ -18,7 +18,7 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 ## Uncomment this to disable output compression
 # $wgDisableOutputCompression = true;
 
-$wgSitename      = "SYNHAK";
+$wgSitename      = "Hackron";
 
 ## The URL base path to the directory containing the wiki;
 ## defaults for all runtime URL paths are based off of this.
@@ -30,23 +30,23 @@ $wgArticlePath      = "/wiki/$1";
 $wgScript           = "$wgScriptPath/index.php";
 $wgRedirectScript   = "$wgScriptPath/redirect.php";
 $wgUsePathInfo      = true;
-$wgServer           = "https://synhak.org";
-$wgCanonicalServer  = "https://synhak.org";
+$wgServer           = "https://hackron.org";
+$wgCanonicalServer  = "https://hackron.org";
 
 ## The relative URL path to the skins directory
 $wgStylePath        = "$wgScriptPath/skins";
 
 ## The relative URL path to the logo.  Make sure you change this from the default,
 ## or else you'll overwrite your logo when you upgrade!
-$wgLogo             = "https://s3.amazonaws.com/static.synhak.org/logo.png";
+$wgLogo             = "https://s3.amazonaws.com/static.hackron.org/documents/impress/logo-128.png";
 
 ## UPO means: this is also a user preference option
 
 $wgEnableEmail      = true;
 $wgEnableUserEmail  = true; # UPO
 
-$wgEmergencyContact = "sysadmin@synhak.org";
-$wgPasswordSender   = "sysadmin@synhak.org";
+$wgEmergencyContact = "sysadmin@hackron.org";
+$wgPasswordSender   = "sysadmin@hackron.org";
 
 $wgEnotifUserTalk      = false; # UPO
 $wgEnotifWatchlist     = false; # UPO
@@ -195,63 +195,6 @@ require_once( "$IP/extensions/googleAgenda.php" );
 include_once( "$IP/extensions/ExternalData/ExternalData.php" );
 
 $wgUploadDirectory = 'wiki-images';
-$wgUploadS3Bucket = 'static.synhak.org';
-$wgUploadS3SSL = false; // true if SSL should be used
-$wgPublicS3 = true; // true if public, false if authentication should be used
-$wgS3BaseUrl = "http".($wgUploadS3SSL?"s":"")."://s3.amazonaws.com/$wgUploadS3Bucket";
-$wgUploadBaseUrl = "$wgS3BaseUrl/$wgUploadDirectory";
-$wgLocalFileRepo = array(
-        'class' => 'LocalS3Repo',
-        'name' => 's3',
-        'directory' => $wgUploadDirectory,
-        'url' => $wgUploadBaseUrl ? $wgUploadBaseUrl . $wgUploadPath : $wgUploadPath,
-        'urlbase' => $wgS3BaseUrl ? $wgS3BaseUrl : "",
-        'hashLevels' => $wgHashedUploadDirectory ? 2 : 0,
-        'thumbScriptUrl' => $wgThumbnailScriptPath,
-        'transformVia404' => !$wgGenerateThumbnailOnParse,
-        'initialCapital' => $wgCapitalLinks,
-        'deletedDir' => $wgUploadDirectory.'/deleted',
-        'deletedHashLevels' => $wgFileStore['deleted']['hash'],
-        'AWS_ACCESS_KEY' => '{{mw_aws_key}}',
-        'AWS_SECRET_KEY' => '{{mw_aws_secret}}',
-        'AWS_S3_BUCKET' => $wgUploadS3Bucket,
-        'AWS_S3_PUBLIC' => $wgPublicS3,
-        'AWS_S3_SSL' => $wgUploadS3SSL
-);
-
-include_once( "$IP/extensions/LocalS3Repo/LocalS3Repo.php" );
-
-/*require_once( "$IP/extensions/AWS/AWS.php" );
-
-$wgAWSCredentials = array(
-    'key' => '${mw_aws_key}',
-    'secret' => '${mw_aws_secret}'
-);
-
-$wgFileBackends['s3']['containerPaths'] = array(
-    'local-public' => 'public.wikistatic.synhak.org',
-    'local-thumb' => 'thumb.wikistatic.synhak.org',
-    'local-deleted' => 'deleted.wikistatic.synhak.org',
-    'local-temp' => 'temp.wikistatic.synhak.org'
-);
- 
-// Make MediaWiki use Amazon S3 for file storage.
-$wgLocalFileRepo = array (
-    'class'             => 'LocalRepo',
-    'name'              => 'local',
-    'backend'           => 's3',
-    'scriptDirUrl'      => $wgScriptPath,
-    'scriptExtension'   => $wgScriptExtension,
-    'url'               => $wgScriptPath . '/img_auth.php',
-    'zones'             => array(
-        'public'  => array( 'url' => 'http://public.wikistatic.synhak.org/' ),
-        'thumb'   => array( 'url' => 'http://thumb.wikistatic.synhak.org/' ),
-        'temp'    => array( 'url' => 'http://temp.wikistatic.synhak.org/' ),
-        'deleted' => array( 'url' => 'http://deleted.wikistatic.synhak.org/' )
-    )
-);
-
-$wgImgAuthPublicTest = false; */
 
 // Client side caching: We override this in apache.
 // UPDATE: 2012-10-29 set to true for now, custom httpd cache rules are acting up.
@@ -262,8 +205,6 @@ $wgAllowMicrodataAttributes = true;
 $wgNamespacesWithSubpages = array_fill(0, 200, true);
 
 //$wgReadOnly = 'OUTAGE: This wiki is in read-only mode until 5PM EST on August 28th.';
-
-//$wgDebugLogFile = "/tmp/mediawiki-debug.log";
 
 $wgSessionsInObjectCache = true;
 $wgMainCacheType = CACHE_DB;

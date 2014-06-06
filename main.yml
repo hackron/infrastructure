@@ -1,8 +1,5 @@
 ---
-- hosts: static-www
-  tasks:
-    - add_host: hostname={{inventory_hostname}} groupname=tag_role_www
-- hosts: tag_role_www
+- hosts: www
   sudo: true
   serial: 1
   gather_facts: false
@@ -16,31 +13,10 @@
   pre_tasks:
     - name: Collect EC2 facts
       action: ec2_facts
-    - name: Remove from ELB
-      connection: local
-      sudo: false
-      local_action:
-        module: ec2_elb
-        region: "{{ansible_ec2_placement_region}}"
-        ec2_elbs:
-          - www-vpc
-        state: 'absent'
-        instance_id: "{{ansible_ec2_instance_id}}"
     - name: Install libselinux-python
       action: yum pkg=libselinux-python state=present
     - name: Configure selinux
       action: selinux state=permissive policy=targeted
-  post_tasks:
-    - name: Add to ELB
-      connection: local
-      sudo: false
-      local_action:
-        module: ec2_elb
-        region: "{{ansible_ec2_placement_region}}"
-        ec2_elbs:
-          - www-vpc
-        instance_id: "{{ansible_ec2_instance_id}}"
-        state: 'present'
   roles:
     - role: managed-host
       sysadmins:
@@ -146,6 +122,6 @@
     - role: uwsgi-server
 
     - role: nginx-uwsgi
-      name: synhak.org
+      name: hackron.org
       nginx_append:
-        - templates/synhak-nginx.conf
+        - templates/hackron-nginx.conf

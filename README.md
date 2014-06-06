@@ -1,8 +1,8 @@
-The infrastructure setup for synhak.
+The infrastructure setup for hackron.
 ==========
 
-Check http://synhak.org/wiki/Sysadmin#Ansible for more information about how this
-fits in at SYNHAK.
+Check http://hackron.org/wiki/Sysadmin#Ansible for more information about how this
+fits in at Hackron.
 
 The Setup
 =========
@@ -21,8 +21,8 @@ repository:
 * plays/ - Logical units of role functionality that may or may not be shared
   between roles
 * private/ - The actual security sensitive information that only root sysadmins
-  should have access to and need to update. Kept in a private git repository on www-0.synhak.org.
-* scripts/ - Scripts and things that keep SYNHAK ticking. Each one should be
+  should have access to and need to update. Kept in a private git repository on www-0.hackron.org.
+* scripts/ - Scripts and things that keep Hackron ticking. Each one should be
   documented as to its purpose. Check in plays/ to see where each one fits in.
 * sysadmin-keys/ - The public SSH keys of people with ansible access.
 
@@ -36,9 +36,9 @@ Or:
 
 To get the private repo (has auth credentials and whatnot):
 
-1.) Clone the main repo from https://github.com/SYNHAK/infrastructure
+1.) Clone the main repo from https://github.com/hackron/infrastructure
 2.) cd infrastructure
-3.) Set SSH to use your SYN/HAK Infrastructure keypair for all users on the synhak.org domain
+3.) Set SSH to use your Hackron Infrastructure keypair for all users on the hackron.org domain
 4.) git submodule init
 5.) git submodule update
 

@@ -1,6 +1,6 @@
 [submodule "private"]
 	path = private
-	url = sysadmin-git@www-0.synhak.org:ansible-private.git
+	url = sysadmin-git@www-0.hackron.org:ansible-private.git
 [submodule "tdfischer-roles"]
 	path = tdfischer-roles
 	url = git://github.com/tdfischer/ansible-roles.git

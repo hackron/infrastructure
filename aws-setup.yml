@@ -4,7 +4,7 @@
   vars:
     region: us-east-1
   tasks:
-    - name: Install root synhak ssh key
+    - name: Install root hackron ssh key
       action:
         module: ec2_key
         name: root
@@ -101,8 +101,8 @@
       local_action:
         module: route53
         command: create
-        zone: synhak.org
-        record: dev.synhak.org
+        zone: hackron.org
+        record: hackron.org
         type: A
         alias_id: "{{elb.elb.hosted_zone_id}}"
         alias_dns: "{{elb.elb.hosted_zone_name}}"
