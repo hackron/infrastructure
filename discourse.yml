@@ -3,6 +3,11 @@
   serial: 1
   gather_facts: false
   user: fedora
+  vars_files:
+    - private/discourse.yml
+  pre_tasks:
+    - name: Mount pgsql volume
+      action: mount src=/dev/xvdf1 name=/var/lib/pgsql fstype=ext4 opts=noatime state=present
   roles:
     - role: managed-host
       sysadmins:
@@ -13,7 +18,7 @@
         - name: gsvolt
           key: "{{ lookup('file', 'sysadmin-keys/gsvolt.pub') }}"
       extra_packages:
-        - psycopg2
+        - python-psycopg2
 
     - role: pgsql
 
