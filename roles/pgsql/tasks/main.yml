@@ -9,7 +9,16 @@
   - postgres initdb
   - start postgres
 
+- name: postgres data directory
+  file: dest=/var/lib/pgsql/data state=directory
+
+- name: postgres initdb
+  command: creates=/var/lib/pgsql/data/PG_VERSION postgresql-setup initdb
+
 - name: set up pg_hba.conf
   copy: src=base-pg_hba.conf dest=/var/lib/pgsql/data/pg_hba.conf backup=yes
   notify:
-  - start postgres
+  - reload postgres
+
+- name: Ensure postgres is running
+  service: name=postgresql enabled=yes state=restarted
