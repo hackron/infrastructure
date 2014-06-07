@@ -1,13 +1,15 @@
 - hosts: www
-  sudo: true
   serial: 1
+  sudo: true
   gather_facts: false
-  user: fedora
+  user: root
   vars_files:
     - private/discourse.yml
   pre_tasks:
     - name: Mount pgsql volume
-      action: mount src=/dev/xvdf1 name=/var/lib/pgsql fstype=ext4 opts=noatime state=present
+      action: mount src=/dev/xvdf1 name=/var/lib/pgsql fstype=ext4 opts=defaults,noatime state=present
+    - name: Mount discourse volume
+      action: mount src=/dev/xvdg1 name=/var/lib/discourse fstype=ext4 opts=defaults,noatime state=present
   roles:
     - role: managed-host
       sysadmins:
@@ -22,11 +24,24 @@
 
     - role: pgsql
 
-    - role: discourse
+    - role: rails-app
+      name: discourse
+      git: https://github.com/discourse/discourse.git
+      vcs_version: master
+      uwsgi_mount: "/"
+      uwsgi_domain: "discuss.hackron.org"
+      uwsgi_config:
+        src: templates/discourse.conf
+        dest: "{{uwsgi_app_path}}/config/discourse.conf"
 
     - role: uwsgi-server
 
-    - role: nginx-uwsgi
+    - role: nginx-server
       name: hackron.org
       nginx_append:
         - templates/hackron-nginx.conf
+
+    - role: nginx-uwsgi
+      name: discuss.hackron.org
+      nginx_append:
+        - templates/hackron-discourse.conf
