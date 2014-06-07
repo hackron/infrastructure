@@ -20,6 +20,23 @@
   - rubygem-bundler
   - openssl-devel
   - ImageMagick
+  - ruby-devel
+  - make
+  - rubygems-devel
+  - gcc-c++
+  - gcc
+  - postgresql-devel
+  - rubygem-rake
+  - tk-devel
+  - systemtap-sdt-devel
+  - rubygem-minitest
+  - readline-devel
+  - ncurses-devel
+  - libyaml-devel
+  - libffi-devel
+  - libdb-devel
+  - gdbm-devel
+  - autoconf
 
 - name: install gems
   gem: state=present user_install=no name={{item}}
@@ -53,18 +70,22 @@
        version={{discourse_version}}
        update=yes
 
+- name: chown to discourse user
+  file: recurse=yes path=/var/lib/discourse/ owner=discourse group=discourse
+
 - name: bundle
   shell: chdir=/var/lib/discourse/app/ bundle install --deployment --without test
+  sudo_user: discourse
 
 - name: install configuration files
-  template: src={{item}} dest=/var/lib/discourse/app/config/{{item}}
+  template: src={{item}} dest=/var/lib/discourse/app/config/{{item}} owner=discourse group=discourse
   with_items:
-  - discourse.conf
-  - redis.yml
-  - discourse.pill
+    - discourse.conf
+    - redis.yml
+    - discourse.pill
 
 - name: install production environment config
-  template: src=production.rb dest=/var/lib/discourse/app/config/environments/production.rb
+  template: src=production.rb dest=/var/lib/discourse/app/config/environments/production.rb owner=discourse group=discourse
 
 - name: Migrate database
   shell: >
@@ -90,6 +111,9 @@
     creates=/var/run/bluepill/pids/discourse.pid
     /usr/local/bin/bluepill --no-privileged start app/config/discourse.pill
   sudo_user: discourse
+
+- name: Ensure nginx directory exists
+  file: dest=/etc/nginx/conf.d/ state=directory
 
 - name: install nginx conf
   notify: reload nginx
