@@ -6,7 +6,6 @@
   - postgresql-server
   - postgresql-contrib
   notify:
-  - postgres initdb
   - start postgres
 
 - name: postgres data directory
