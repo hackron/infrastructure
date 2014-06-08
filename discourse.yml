@@ -5,6 +5,15 @@
   user: root
   vars_files:
     - private/discourse.yml
+  tasks:
+    - name: Install sidekiq-worker.service systemd unit for discourse
+      action: template src=templates/discourse-sidekiq-worker.service dest=/etc/systemd/system/discourse-sidekiq-worker.service
+      tags:
+        - reconfigure
+    - name: Activate sidekiq-worker.service
+      action: service name=sidekiq-worker.service state=started
+      tags:
+        - services
   pre_tasks:
     - name: Mount pgsql volume
       action: mount src=/dev/xvdf1 name=/var/lib/pgsql fstype=ext4 opts=defaults,noatime state=present

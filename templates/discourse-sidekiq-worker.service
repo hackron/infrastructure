@@ -1,0 +1,14 @@
+[Unit]
+Description=sidekiq-worker for hackron discourse
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/bundle exec sidekiq -L /srv/uwsgi/discourse/app/log/sidekiq.log
+StandardOutput=syslog
+Environment="RAILS_ENV=production"
+WorkingDirectory=/srv/uwsgi/discourse/app/
+User=uwsgi
+Group=uwsgi
+
+[Install]
+WantedBy=uwsgi.service
