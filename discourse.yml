@@ -17,8 +17,12 @@
   pre_tasks:
     - name: Mount pgsql volume
       action: mount src=/dev/xvdf1 name=/var/lib/pgsql fstype=ext4 opts=defaults,noatime state=present
+      tags:
+        - bootstrap
     - name: Mount discourse volume
       action: mount src=/dev/xvdg1 name=/var/lib/discourse fstype=ext4 opts=defaults,noatime state=present
+      tags:
+        - bootstrap
   roles:
     - role: managed-host
       sysadmins:
@@ -39,7 +43,8 @@
       vcs_version: master
       uwsgi_mount: "/"
       uwsgi_domain: "discuss.hackron.org"
-      uwsgi_config:
+      uwsgi_nginx_config: templates/hackron-discourse.conf
+      uwsgi_app_config:
         src: templates/discourse.conf
         dest: "{{uwsgi_app_path}}/config/discourse.conf"
 
@@ -52,5 +57,3 @@
 
     - role: nginx-uwsgi
       name: discuss.hackron.org
-      nginx_append:
-        - templates/hackron-discourse.conf
